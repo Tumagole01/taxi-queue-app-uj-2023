@@ -2,7 +2,7 @@
 import assert from 'assert';
 import {joinQueue, queueLength, 
 		leaveQueue, joinTaxiQueue, 
-		taxiQueueLength} from '../taxi.sql.js'
+		taxiQueueLength,taxiDepart} from '../taxi.sql.js'
 
 import * as sqlite from 'sqlite';
 import sqlite3 from 'sqlite3';
@@ -18,6 +18,7 @@ describe('The taxi queue app', function() {
 
 	this.beforeEach(async () => {
 		//
+
 		await db.exec(`update taxi_queue set passenger_queue_count = 0, taxi_queue_count = 0`)
 	})
 
@@ -163,7 +164,7 @@ describe('The taxi queue app', function() {
 		taxiDepart();
 		
 		// data after a taxi departed
-		assert.equal(0,await queueLength());
+		assert.equal(0,await taxiQueueLength());
 		assert.equal(15, await queueLength());
 
 	});
